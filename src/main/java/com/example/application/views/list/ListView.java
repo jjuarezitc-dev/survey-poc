@@ -7,7 +7,9 @@ import com.example.application.data.entity.Department;
 import com.example.application.data.repository.BeverageRepository;
 import com.example.application.data.repository.DepartmentRepository;
 import com.example.application.data.service.EmployeeService;
+import com.example.application.security.SecurityService;
 import com.example.application.views.form.SurveyForm;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
@@ -29,10 +31,12 @@ public class ListView extends VerticalLayout {
 	
 	SurveyForm surveyForm;
 
-	public ListView(DepartmentRepository departmentRepository, EmployeeService employeeService, BeverageRepository beverageRepository) {
+	public ListView(DepartmentRepository departmentRepository, EmployeeService employeeService, BeverageRepository beverageRepository, SecurityService securityService) {
 		this.departmentRepository = departmentRepository;
 		this.employeeService = employeeService;
 		this.beverageRepository = beverageRepository;
+		
+		Button logoutButton = new Button("Log out", e -> securityService.logout());
 		
         setSpacing(false);
 
@@ -43,6 +47,7 @@ public class ListView extends VerticalLayout {
         add(new Paragraph("Por favor contesta la siguiente encuesta."));
         
         configureForm();
+        add(logoutButton);
         add(surveyForm);
 
         setSizeFull();
