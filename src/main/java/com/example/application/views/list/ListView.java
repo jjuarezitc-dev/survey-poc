@@ -2,6 +2,8 @@ package com.example.application.views.list;
 
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import com.example.application.data.entity.Beverage;
 import com.example.application.data.entity.Department;
 import com.example.application.data.repository.BeverageRepository;
@@ -36,6 +38,7 @@ public class ListView extends VerticalLayout {
 		this.employeeService = employeeService;
 		this.beverageRepository = beverageRepository;
 		
+		String employeeId = SecurityContextHolder.getContext().getAuthentication().getName();
 		Button logoutButton = new Button("Log out", e -> securityService.logout());
 		
         setSpacing(false);
@@ -43,7 +46,7 @@ public class ListView extends VerticalLayout {
         Image img = new Image("images/office-depot-logo.png", "Office Depot logo");
         img.setWidth("250px");
 
-        add(new H2("Queremos conocerte mejor"));
+        add(new H2("Queremos conocerte mejor " + employeeId));
         add(new Paragraph("Por favor contesta la siguiente encuesta."));
         
         configureForm();
