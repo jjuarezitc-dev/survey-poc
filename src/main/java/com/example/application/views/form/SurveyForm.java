@@ -2,8 +2,11 @@ package com.example.application.views.form;
 
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import com.example.application.data.entity.Beverage;
 import com.example.application.data.entity.Department;
+import com.example.application.data.repository.UserRepository;
 import com.example.application.data.service.EmployeeService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -23,6 +26,7 @@ import com.vaadin.flow.component.textfield.TextField;
 public class SurveyForm extends FormLayout {
 	private static final long serialVersionUID = 1L;
 	private EmployeeService employeeService;
+	private UserRepository userRepository;
 	
 	TextField firstName = new TextField("Nombre");
 	TextField lastName = new TextField("Apellido");
@@ -35,8 +39,13 @@ public class SurveyForm extends FormLayout {
 	DatePicker datePicker = new DatePicker("Fecha de nacimiento");
 
 	Button save = new Button("Guardar");
+	
+	String username = "";
 
-	public SurveyForm(List<Department> departmentList, List<Beverage> beverageList, EmployeeService employeeService) {
+	public SurveyForm(List<Department> departmentList, List<Beverage> beverageList, EmployeeService employeeService, UserRepository userRepository) {
+		String employeeId = SecurityContextHolder.getContext().getAuthentication().getName();
+		this.username = employeeId;
+		this.userRepository = userRepository;
 		this.employeeService = employeeService;
 		addClassName("contact-form");
 
@@ -94,6 +103,11 @@ public class SurveyForm extends FormLayout {
 		this.radioGroup.clear();
 		this.department.clear();
 		this.email.setInvalid(false);
+		
+		System.out.println("just cleaned");
+		System.out.println("***** find all " + this.userRepository.findAll());
+		System.out.println("***** USERNAME IS ->" + this.username);
+		this.userRepository.setAsCompleted(this.username);
 	}
 	
 	private boolean isFormValid() {

@@ -9,17 +9,18 @@ INSERT INTO Department (id, name) values (2, 'Ventas');
 INSERT INTO Department (id, name) values (3, 'Auditoria');
 INSERT INTO Department (id, name) values (4, 'RRHH');
 
-INSERT INTO users (username, password, enabled) values('user','password', true);
-INSERT INTO users (username, password, enabled) values('admin','password', true);
+INSERT INTO users (username, password, enabled, completed) values('user','password', true, false);
+INSERT INTO users (username, password, enabled, completed) values('admin','password', true, false);
 
 INSERT INTO authorities(username, authority) values('user','ROLE_USER');
 INSERT INTO authorities(username, authority) values('admin','ROLE_ADMIN');
 
 
 --Office Depot users
-INSERT INTO users (username, password, enabled) values ('991148', '991148', true);
-INSERT INTO users (username, password, enabled) values ('991149', '991149', true);
-INSERT INTO users (username, password, enabled) values ('991150', '991150', true);
+INSERT INTO users (username, password, enabled, completed) values ('991148', '991148', true, false);
+INSERT INTO users (username, password, enabled, completed) values ('991149', '991149', true, false);
+INSERT INTO users (username, password, enabled, completed) values ('991150', '991150', true, false);
+
 
 INSERT INTO authorities(username, authority) values ('991148', 'ROLE_USER');
 INSERT INTO authorities(username, authority) values ('991149', 'ROLE_USER');

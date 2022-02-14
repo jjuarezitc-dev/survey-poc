@@ -8,6 +8,7 @@ import com.example.application.data.entity.Beverage;
 import com.example.application.data.entity.Department;
 import com.example.application.data.repository.BeverageRepository;
 import com.example.application.data.repository.DepartmentRepository;
+import com.example.application.data.repository.UserRepository;
 import com.example.application.data.service.EmployeeService;
 import com.example.application.security.SecurityService;
 import com.example.application.views.form.SurveyForm;
@@ -30,13 +31,15 @@ public class ListView extends VerticalLayout {
 	private DepartmentRepository departmentRepository;
 	private EmployeeService employeeService;
 	private BeverageRepository beverageRepository;
+	private UserRepository userRepository;
 	
 	SurveyForm surveyForm;
 
-	public ListView(DepartmentRepository departmentRepository, EmployeeService employeeService, BeverageRepository beverageRepository, SecurityService securityService) {
+	public ListView(DepartmentRepository departmentRepository, EmployeeService employeeService, BeverageRepository beverageRepository, SecurityService securityService, UserRepository userRepository) {
 		this.departmentRepository = departmentRepository;
 		this.employeeService = employeeService;
 		this.beverageRepository = beverageRepository;
+		this.userRepository = userRepository;
 		
 		String employeeId = SecurityContextHolder.getContext().getAuthentication().getName();
 		Button logoutButton = new Button("Log out", e -> securityService.logout());
@@ -51,7 +54,13 @@ public class ListView extends VerticalLayout {
         
         configureForm();
         add(logoutButton);
-        add(surveyForm);
+        
+        if(! this.userRepository.isSurveyCompletedByUsername(employeeId)) {
+        	add(surveyForm);
+        } else {
+        	add (new H2("Ya completaste la encuesta. Gracias"));
+        }
+        
 
         setSizeFull();
     }
@@ -60,7 +69,7 @@ public class ListView extends VerticalLayout {
 		List<Department> departmentList = departmentRepository.findAll();
 		List<Beverage> beverageList = beverageRepository.findAll();
 		
-		surveyForm = new SurveyForm(departmentList, beverageList, this.employeeService); 
+		surveyForm = new SurveyForm(departmentList, beverageList, this.employeeService, this.userRepository); 
 		surveyForm.setWidth("25em");
     }
 

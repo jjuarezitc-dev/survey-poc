@@ -110,6 +110,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         "/icons/**",
         "/images/**",
         "/styles/**",
+        
+        "/foo/**",
 
         // (development mode) H2 debugging console
         "/h2-console/**");
